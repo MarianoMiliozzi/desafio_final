@@ -67,7 +67,7 @@ app.layout = html.Div([
 
     html.Div([
         html.Div([
-            html.Label('Antiguedad Laboral'),
+            html.Label('Antiguedad Laboral (años)'),
             dcc.Slider(id='sl-antiguedad',
                        marks={i: str(i) for i in range(0,anti_rng[1]+1,10) },
                        min=anti_rng[0], max=anti_rng[1],
@@ -75,12 +75,12 @@ app.layout = html.Div([
                        ),
                 ],className='six columns'),
             html.Div([
-                html.Label('Riesgo'),
+                html.Label('Score Crediticio'),
                 dcc.Input(id='sl-riesgo', type='number')
             ], className='three columns'),
 
             html.Div([
-                html.Label('Exigencia'),
+                html.Label('Pagos Mínimos Mensuales'),
                 dcc.Input(id='sl-exigencia', type='number')
             ], className='three columns'),
 
@@ -145,7 +145,7 @@ app.layout = html.Div([
         ], className='three columns'),
 
         html.Div([
-            html.Label('Region', className='row'),
+            html.Label('Región', className='row'),
             dcc.Dropdown(options=[{'label': regiones[k], 'value': regiones[k]} for k in range(len(regiones))],
                          id='rb-region', value='', clearable=False, ),
         ], className='three columns'),
@@ -230,7 +230,7 @@ def set_selected(antig_el,edad_el,riesgo_el,exigencia_el,profesion_el,sitlabor_e
 def set_display_children(antig_el, edad_el, riesgo_el, exigencia_el, profesion_el,sitlabor_el,nivel_el, sexo_el,ecivil_el,region_el,nacionalidad_el):
     global model
     new = []
-    salected_colu = ['Antigüedad','Edad','Riesgo','Exigencia','Profesión','Situación Laboral','Nivel Educativo','Sexo','Estado Civil','Región','Nacionalidad']
+    salected_colu = ['Antigüedad','Edad','Score','Pagos Mínimos Mensuales','Profesión','Situación Laboral','Nivel Educativo','Sexo','Estado Civil','Región','Nacionalidad']
     salected_data = pd.DataFrame([[antig_el, edad_el, riesgo_el, exigencia_el, profesion_el,sitlabor_el,
                      nivel_el, sexo_el,ecivil_el,region_el,nacionalidad_el]],columns = salected_colu)
 
@@ -266,9 +266,9 @@ def set_display_children(antig_el, edad_el, riesgo_el, exigencia_el, profesion_e
     if nacionalidad_el == 'Argentino':         new.append(1)
     else:                                           new.append(0)
 
-
+    if new.
     try:        result = model.predict(new)
-    except:     result = 'Complete todos los datos'
+    except:     result = ['Complete todos los datos']
 
     return [salected_data.to_dict('records'),
             [{"name": salected_colu[i], "id": salected_colu[i]} for i in range(len(salected_colu))],
