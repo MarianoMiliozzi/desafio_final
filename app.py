@@ -1,4 +1,4 @@
-import pandas as pd ;
+import pandas as pd ; import numpy as np
 import dash
 import dash_core_components as dcc ; import dash_html_components as html
 import dash_table ; from dash.dependencies import Output, Input
@@ -266,9 +266,17 @@ def set_display_children(antig_el, edad_el, riesgo_el, exigencia_el, profesion_e
     if nacionalidad_el == 'Argentino':         new.append(1)
     else:                                           new.append(0)
 
-    if new.
-    try:        result = model.predict(new)
-    except:     result = ['Complete todos los datos']
+    cant = 0
+
+    for i in range(len(new)):
+        try: cant += new[i]
+        except: pass
+
+    if cant == 0:
+        result = ['Complete los datos']
+    else:
+        result = model.predict(new)
+
 
     return [salected_data.to_dict('records'),
             [{"name": salected_colu[i], "id": salected_colu[i]} for i in range(len(salected_colu))],
