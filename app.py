@@ -16,16 +16,12 @@ cat_features = ['profesion', 'sitlabor', 'niveleduc', 'ecivil', 'region']
 
 with open('assets/profesion.pkl', 'rb') as cat_feature:
     profesiones = pickle.load(cat_feature)
-
 with open('assets/sitlabor.pkl', 'rb') as cat_feature:
     sitlaborales = pickle.load(cat_feature)
-
 with open('assets/niveleduc.pkl', 'rb') as cat_feature:
     niveleducativos = pickle.load(cat_feature)
-
 with open('assets/ecivil.pkl', 'rb') as cat_feature:
     eciviles = pickle.load(cat_feature)
-
 with open('assets/region.pkl', 'rb') as cat_feature:
     regiones = pickle.load(cat_feature)
 
@@ -46,7 +42,7 @@ ries_rng = (0, 974)
 exig_rng = (0, 9133300)
 
 #################################### MODEL ##################################
-with open('assets\cat_model.pkl', 'rb') as f_catboost:
+with open('assets/cat_model.pkl', 'rb') as f_catboost:
     model = pickle.load(f_catboost)
 #################################### TABLA ##################################
 def generate_table(dataframe, max_rows=100):
