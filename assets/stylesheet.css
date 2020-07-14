@@ -3,30 +3,6 @@
     padding-right:10%;
 }
 
-.carrera{
-    float: left;
-    right: 10px;
-    padding: 10px;
-    background-color: gray;
-    border-radius: 5px;
-    box-shadow: darkblue;
-    font-weight: bolder;
-    color :white;
-}
-
-.sigla{
-    position: bottom;
-    float: left;
-    right: 10px;
-    padding: 10px;
-    color:darkblue;
-    /*background-color: gray;*/
-    border-radius: 5px;
-    box-shadow: darkblue;
-    font-weight: bold;
-    font-size: 20px;
-}
-
 .niveles{
         margin-left: 00px;
 }
@@ -45,17 +21,4 @@
     color: #555555;
     font-size: 12px;
 
-}
-.texto_intro{
-    color: #555555;
-    font-size: 12px;
-    float: inherit;
-}
-
-.logo{
-    background-image: url("untref_logo.jpg");
-    width: 396px;
-    height: 61px;
-    background-repeat: no-repeat;
-    float: right;
 }
