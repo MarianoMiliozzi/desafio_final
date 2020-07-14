@@ -7,7 +7,7 @@ import pickle
 ################################## APP SETTING ###############################
 external_stylesheets = ['https://codepen.io/chriddyp/pen/bWLwgP.css']
 app = dash.Dash(__name__, external_stylesheets=external_stylesheets)
-app.title = 'Desafio III'
+app.title = 'Desafio Integrador'
 server = app.server # the Flask app
 ################################## APP SETTING ###############################
 #################################### PYTHON ##################################
@@ -59,8 +59,8 @@ def generate_table(dataframe, max_rows=100):
 ################################## APP LAYOUT ################################
 app.layout = html.Div([
     html.Div([
-        html.H2('Desafio Integrador', className='four columns'),
-        html.H4('Grupo I', className='eight columns'),
+        html.H3('Desafio Integrador ', className='six columns'),
+        html.H3('Predictor de ingresos', className='six columns'),
 
     ], className='row'),
     html.Hr(className='linea'),
@@ -164,9 +164,30 @@ app.layout = html.Div([
 
     html.Hr(className='linea2'),
 
-    html.Div([html.H5(id='model-predict'),
-              html.Label('Prediccion para' )]
-             ,className='Row'),
+    html.Div([
+        html.Div([
+            html.H5(id='model-predict'),
+            html.P(id='model-clase'),
+            ],className='seven columns'),
+        html.Div([
+            html.P('Probabilidades'),
+            html.Div([
+                html.P(id='model-proba0'),
+                html.P(id='model-proba1'),
+            ],className='two columns'),
+            html.Div([
+                html.P(id='model-proba2'),
+                html.P(id='model-proba3'),
+            ],className='two columns'),
+        ],className='five columns, texto_chico')
+
+        ],className='row'),
+
+    #html.Hr(className='linea'),
+
+    html.Div([
+            html.Label('Prediccion para:',className='row')
+            ],className='row'),
 
     # TABLA DE DATOS
     dash_table.DataTable(
@@ -212,7 +233,12 @@ def set_selected(antig_el,edad_el,riesgo_el,exigencia_el,profesion_el,sitlabor_e
     [
         Output('tabla-datos', 'data'),
         Output('tabla-datos', 'columns'),
-        Output('model-predict','children')
+        Output('model-predict','children'),
+        Output('model-clase','children'),
+        Output('model-proba0', 'children'),
+        Output('model-proba1', 'children'),
+        Output('model-proba2', 'children'),
+        Output('model-proba3', 'children'),
     ],
     [Input('sl-antiguedad', 'value'),
      Input('sl-edad', 'value'),
@@ -274,14 +300,44 @@ def set_display_children(antig_el, edad_el, riesgo_el, exigencia_el, profesion_e
 
     if cant == 0:
         result = ['Complete los datos']
+        proba = ['','','','']
     else:
         result = model.predict(new)
+        proba = model.predict_proba(new)
+        proba = np.round(proba, decimals=4) * 100
+
+    clase = ''
+    if result[0] == 0:
+        clase = 'Ud. percibe hasta 1 SMVM'
+    elif result[0] == 1:
+        clase = 'Ud. percibe entre 1 y 2 SMVM'
+    elif result[0] == 2:
+        clase = 'Ud. percibe entre 2 y 4 SMVM'
+    elif result[0] == 3:
+        clase = 'Ud. percibe más de 4 SMVM'
 
 
-    return [salected_data.to_dict('records'),
-            [{"name": salected_colu[i], "id": salected_colu[i]} for i in range(len(salected_colu))],
-            'Clase predicha: '+str(result[0]),
-            ]
+
+    if type(proba[0]) == str:
+        return [salected_data.to_dict('records'),
+                [{"name": salected_colu[i], "id": salected_colu[i]} for i in range(len(salected_colu))],
+                'Clase predicha: '+str(result[0]),
+                clase,
+                str(proba[0]),
+                str(proba[1]),
+                str(proba[2]),
+                str(proba[3])
+                ]
+    else:
+        return [salected_data.to_dict('records'),
+                [{"name": salected_colu[i], "id": salected_colu[i]} for i in range(len(salected_colu))],
+                'Clase predicha: '+str(result[0]),
+                clase,
+                'Clase 0: '+str(proba[0])[:5]+' %',
+                'Clase 1: '+str(proba[1])[:5]+' %',
+                'Clase 2: '+str(proba[2])[:5]+' %',
+                'Clase 3: '+str(proba[3])[:5]+' %'
+                ]
 
 
 ################################### APP LOOP ####################################
