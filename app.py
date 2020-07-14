@@ -3,7 +3,6 @@ import dash
 import dash_core_components as dcc ; import dash_html_components as html
 import dash_table ; from dash.dependencies import Output, Input
 import pickle
-import catboost
 
 ################################## APP SETTING ###############################
 external_stylesheets = ['https://codepen.io/chriddyp/pen/bWLwgP.css']
