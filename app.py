@@ -1,12 +1,9 @@
 from flask import Flask
-import pandas as pd ; import plotly.graph_objs as go
+import pandas as pd ;
 import dash
 import dash_core_components as dcc ; import dash_html_components as html
 import dash_table ; from dash.dependencies import Output, Input
-import numpy as np
-import assets.data_normalize as data_get
 import pickle
-
 
 ################################## APP SETTING ###############################
 external_stylesheets = ['https://codepen.io/chriddyp/pen/bWLwgP.css']
